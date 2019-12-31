@@ -1,3 +1,5 @@
+import { Pokemon } from './../interfaces/pokemon.interface';
+import { POKEMOM_API_URL, POKEMON_ELEMENTS, POKEMON_LISTS } from './../app.constants';
 import { Injectable } from '@angular/core';
 
 @Injectable()
@@ -5,11 +7,10 @@ export class PokemonesService {
   favoritos: Pokemon[];
   constructor() {
     console.log('Servicio Listo');
-    console.log(this.getFavoritos());
   }
   resultBusqueda( patron: string ) {
     const arrP = Array();
-    fetch( `./assets/json/todos.json` )
+    fetch( POKEMON_LISTS)
         .then( (res) => res.json() )
         .then( ( pokemons ) => {
           pokemons.forEach( ( pokemon ) => {
@@ -28,13 +29,13 @@ export class PokemonesService {
       abilities: [],
       img: ''
     };
-    fetch( `https://pokeapi.co/api/v2/pokemon/${idN}/`)
+    fetch( `${POKEMOM_API_URL}pokemon/${idN}/`)
           .then( ( res ) => res.json() )
           .then( ( pokemon ) => {
             const newAbilities: string[] = [];
             const newTypes: string[] = [];
             pokemon.types.forEach( ( type ) => {
-              fetch(`./assets/json/elementos.json`)
+              fetch(`POKEMON_ELEMENTS`)
                   .then( ( res ) => res.json() )
                   .then( (elementos ) => {
                     let r = type.type.name;
@@ -56,7 +57,7 @@ export class PokemonesService {
               peso: pokemon.weight / 10,
               altura: pokemon.height / 10
             };
-            fetch(`https://pokeapi.co/api/v2/pokemon-species/${idN}/`)
+            fetch(`${POKEMOM_API_URL}pokemon-species/${idN}/`)
                   .then( (res) => res.json() )
                   .then( ( Charact ) => {
                     Charact.flavor_text_entries.forEach( ( entrie ) => {
@@ -84,7 +85,7 @@ export class PokemonesService {
     const arrP = Array();
     const arP = [216, 13, 81, 149, 197, 94, 56, 62, 74, 35, 52, 53, 1, 6, 24, 25, 60, 105, 7, 18, 202, 208, 311, 330, 331, 151, 158, 252, 144, 249, 384 ];
     arP.forEach(( num ) => {
-      fetch( `https://pokeapi.co/api/v2/pokemon/${num}/`)
+      fetch( `${POKEMOM_API_URL}pokemon/${num}/`)
           .then( ( res ) => res.json() )
           .then( ( pokemones ) => {
             const newAbilities: string[] = [];
@@ -93,7 +94,7 @@ export class PokemonesService {
               newAbilities.push(ability.ability.name);
             } );
             pokemones.types.forEach( ( type ) => {
-              fetch(`./assets/json/elementos.json`)
+              fetch(POKEMON_ELEMENTS)
                   .then( ( res ) => res.json() )
                   .then( (elementos ) => {
                     let r = type.type.name;
@@ -119,15 +120,4 @@ export class PokemonesService {
     this.favoritos = arrP;
     return this.favoritos;
   }
-}
-
-interface Pokemon {
-  id: number;
-  name: string;
-  abilities: string[];
-  img: string;
-  types?: string[];
-  peso?: number;
-  altura?: number;
-  descripcion?: string;
 }

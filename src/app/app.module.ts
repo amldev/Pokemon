@@ -4,10 +4,8 @@ import { NgModule } from '@angular/core';
 // Servicios
 import { PokemonesService } from './servicios/pokemones.service';
 
-
 // Rutas
 import { APP_ROUTING } from './app.routes';
-
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/shared/navbar/navbar.component';
